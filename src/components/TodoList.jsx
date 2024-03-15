@@ -27,6 +27,8 @@ export const TodoList = () => {
     }
 
     const editTask = (task, id) => {
+      console.log({task, id})
+      console.log(todos)
         setTodos(todos.map(todo => todo.id === id ? {...todo, task, isEditing: !todo.isEditing} : todo))
     }
     const sensors = useSensors(

@@ -6,6 +6,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { faCircle, faCheckCircle } from '@fortawesome/free-regular-svg-icons';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import PropTypes from 'prop-types';
 
 import './Todo.css';
 
@@ -64,4 +65,12 @@ export const Todo = ({task, toggleComplete, deleteTodo, editTodo, editTask}) => 
         </div>
       </div>
   );
+};
+
+Todo.PropTypes = {
+  task: PropTypes.object.isRequired,
+  toggleComplete: PropTypes.func.isRequired,
+  deleteTodo: PropTypes.func.isRequired,
+  editTodo: PropTypes.func.isRequired,
+  editTask: PropTypes.func.isRequired,
 };
