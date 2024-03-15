@@ -7,14 +7,14 @@ import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, us
 import { SortableContext, verticalListSortingStrategy, arrayMove } from '@dnd-kit/sortable';
 
 
-export const TodoWrapper = () => {
+export const TodoList = () => {
     const [todos, setTodos] = useState([]);
-  
+
     const addTodo = todo => {
         setTodos([...todos, {id: uuidv4(), task: todo, completed: false, isEditing: false }]);
         console.log(todos);
     };
-      
+
     const toggleComplete = id => {
         setTodos(todos.map(todo => todo.id === id ? {... todo, completed: !todo.completed} : todo ))
     };
@@ -38,17 +38,17 @@ export const TodoWrapper = () => {
         const handleDragEnd = (event) => {
             const {active, over} = event;
             const activeTodo = todos.find((todo) => todo.id === active.id);
-          
+
             // If any todo item is being edited, return early
             if (todos.some(todo => todo.isEditing)) {
               return;
             }
-          
+
             // If over is null or the active and over elements are the same, return early
             if (!over || active.id === over.id) {
               return;
             }
-          
+
             if (activeTodo) {
               setTodos((todos) => {
                 const oldIndex = todos.findIndex((todo) => todo.id === active.id);
@@ -64,16 +64,16 @@ export const TodoWrapper = () => {
           <TodoForm addTodo={addTodo} />
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
               <SortableContext items={todos.map((todo) => todo.id)} strategy={verticalListSortingStrategy}>
-                  {todos.map((todo, index) => (
+                  {todos.map((todo) => (
                       todo.isEditing ? (
-                          <EditTodoForm key={todo.id} editTodo={editTask} task={todo}/> 
+                          <EditTodoForm key={todo.id} editTodo={editTask} task={todo}/>
                       ) : (
-                          <Todo 
+                          <Todo
                               key={todo.id}
                               task={todo}
                               toggleComplete={toggleComplete}
-                              deleteTodo={deleteTodo} 
-                              editTodo={editTodo} 
+                              deleteTodo={deleteTodo}
+                              editTodo={editTodo}
                           />
                       )
                   ))}
