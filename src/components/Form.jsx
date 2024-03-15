@@ -15,7 +15,6 @@ export function Form({ onSubmit, initialValue, placeholder, buttonText }) {
   const [hasError, setHasError] = useState(false);
 
   const handleSubmit = (e) => {
-    e.preventDefault();
     if (value.trim() !== "") {
       onSubmit(value);
       setValue("");
@@ -26,7 +25,7 @@ export function Form({ onSubmit, initialValue, placeholder, buttonText }) {
   };
 
   return (
-    <form className="TodoForm" onSubmit={handleSubmit}>
+    <div className="TodoForm" onSubmit={handleSubmit} role='form'>
       <input
         type="text"
         className={`todo-input ${hasError && "todo-input-error"}`}
@@ -38,9 +37,9 @@ export function Form({ onSubmit, initialValue, placeholder, buttonText }) {
         }}
       />
 
-      <button type="submit" className="todo-btn">
+      <button type="submit" className="todo-btn" onClick={handleSubmit}>
         {buttonText}
       </button>
-    </form>
+    </div>
   );
 }

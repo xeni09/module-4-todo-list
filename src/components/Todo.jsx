@@ -10,8 +10,13 @@ import PropTypes from 'prop-types';
 
 import './Todo.css';
 
+const colors = {
+  primary: '#0a9396',
+  secondary: '#136466',
+};
+
 export const Todo = ({task, toggleComplete, deleteTodo, editTodo, editTask}) => {
-  const [bgColor, setBgColor] = React.useState('#0a9396');
+  const [bgColor, setBgColor] = React.useState(colors.primary);
 
   const {attributes, listeners, setNodeRef, transform, transition} = useSortable({
     id: task.id,
@@ -27,7 +32,7 @@ export const Todo = ({task, toggleComplete, deleteTodo, editTodo, editTask}) => 
 
   const handleToggleComplete = () => {
     toggleComplete(task.id);
-    setBgColor(bgColor === '#0a9396' ? '#136466' : '#0a9396');
+    setBgColor(bgColor === colors.primary ? colors.secondary : colors.primary);
   };
 
   const handleEdit = (e) => {
