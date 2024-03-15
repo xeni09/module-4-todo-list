@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { TodoForm } from './TodoForm';
 import { v4 as uuidv4 } from 'uuid';
 import { Todo } from './Todo';
-import { EditTodoForm } from './EditTodoForm';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy, arrayMove } from '@dnd-kit/sortable';
 
@@ -65,17 +64,14 @@ export const TodoList = () => {
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
               <SortableContext items={todos.map((todo) => todo.id)} strategy={verticalListSortingStrategy}>
                   {todos.map((todo) => (
-                      todo.isEditing ? (
-                          <EditTodoForm key={todo.id} editTodo={editTask} task={todo}/>
-                      ) : (
-                          <Todo
-                              key={todo.id}
-                              task={todo}
-                              toggleComplete={toggleComplete}
-                              deleteTodo={deleteTodo}
-                              editTodo={editTodo}
-                          />
-                      )
+                        <Todo
+                            key={todo.id}
+                            task={todo}
+                            toggleComplete={toggleComplete}
+                            deleteTodo={deleteTodo}
+                            editTodo={editTodo}
+                            editTask={editTask}
+                        />
                   ))}
               </SortableContext>
           </DndContext>
