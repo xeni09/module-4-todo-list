@@ -1,19 +1,26 @@
 import React from 'react';
+import { EditTodoForm } from './EditTodoForm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { faCircle, faCheckCircle } from '@fortawesome/free-regular-svg-icons';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import PropTypes from 'prop-types';
 
 import './Todo.css';
 
-export const Todo = ({task, toggleComplete, deleteTodo, editTodo}) => {
-  const [bgColor, setBgColor] = React.useState('#0a9396');
+const colors = {
+  primary: '#0a9396',
+  secondary: '#136466',
+};
+
+export const Todo = ({task, toggleComplete, deleteTodo, editTodo, editTask}) => {
+  const [bgColor, setBgColor] = React.useState(colors.primary);
 
   const {attributes, listeners, setNodeRef, transform, transition} = useSortable({
     id: task.id,
-    disabled: task.isEditing, 
+    disabled: task.isEditing,
   });
 
 
@@ -25,11 +32,11 @@ export const Todo = ({task, toggleComplete, deleteTodo, editTodo}) => {
 
   const handleToggleComplete = () => {
     toggleComplete(task.id);
-    setBgColor(bgColor === '#0a9396' ? '#136466' : '#0a9396');
+    setBgColor(bgColor === colors.primary ? colors.secondary : colors.primary);
   };
 
   const handleEdit = (e) => {
-    e.stopPropagation(); 
+    e.stopPropagation();
     e.preventDefault();
     editTodo(task.id);
   };
@@ -39,25 +46,36 @@ export const Todo = ({task, toggleComplete, deleteTodo, editTodo}) => {
     deleteTodo(task.id);
   };
 
-  
+  if (task.isEditing) {
+    return  (<EditTodoForm editTodo={editTask} task={task}/>);
+  }
+
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners} className='Todo'>
       <FontAwesomeIcon  className='circle-icon'
-  icon={task.completed ? faCheckCircle : faCircle} 
+  icon={task.completed ? faCheckCircle : faCircle}
   onMouseDown={handleToggleComplete}
 />
         <p className={`${task.completed ? 'completed': ""}`}>{task.task}</p>
         <div className='icon-container'>
-       
-        <FontAwesomeIcon icon={faPenToSquare} 
+
+        <FontAwesomeIcon icon={faPenToSquare}
         onMouseDown={handleEdit}
         style={{ pointerEvents: 'auto' }}
 
         />
-<FontAwesomeIcon icon={faTrash} 
+<FontAwesomeIcon icon={faTrash}
   onMouseDown={handleDelete}
-/> 
+/>
         </div>
       </div>
   );
+};
+
+Todo.PropTypes = {
+  task: PropTypes.object.isRequired,
+  toggleComplete: PropTypes.func.isRequired,
+  deleteTodo: PropTypes.func.isRequired,
+  editTodo: PropTypes.func.isRequired,
+  editTask: PropTypes.func.isRequired,
 };

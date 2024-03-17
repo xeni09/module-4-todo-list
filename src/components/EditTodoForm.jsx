@@ -1,19 +1,17 @@
-import {useState} from 'react';
+import { Form } from "./Form";
+import PropTypes from "prop-types";
 
-export const EditTodoForm = ({editTodo, task}) => {
-  const [value, setValue] = useState(task.task);
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    editTodo (value, task.id);
-    setValue('');
-  };
+export const EditTodoForm = ({ editTodo, task }) => {
   return (
-    <form className='TodoForm' onSubmit={handleSubmit}>
-      <input type='text' className='todo-input'
-      value={value} placeholder='Update Taks' 
-       onChange={(e) => setValue(e.target.value)}/>
-    
-    <button type='submit' className='todo-btn'>Update Task</button>
-    </form>
+    <Form
+      onSubmit={(v) => editTodo(v, task.id)}
+      initialValue={task.task}
+      buttonText="Update Task"
+    />
   );
+};
+
+EditTodoForm.propTypes = {
+  editTodo: PropTypes.func.isRequired,
+  task: PropTypes.object.isRequired,
 };
